@@ -3,6 +3,7 @@ package com.example.restaurantesapi.ui.activities.inicio
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -17,7 +18,7 @@ import com.example.restaurantesapi.ui.viewmodels.MainViewModel
 class MainActivity : AppCompatActivity(){
     lateinit var binding: ActivityMainBinding
     val model: MainViewModel by viewModels()
-    var ok: Boolean = true
+    var ok: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,9 +63,9 @@ class MainActivity : AppCompatActivity(){
                 Toast.makeText(this, "Contraseña/Usuario vacio", Toast.LENGTH_SHORT).show()
             }else{
                 model.login(email, password, this)
-
                 if (!ok){
                     val token = PreferencesRepository.getToken(this@MainActivity)
+                    Log.d("ok", "ENTROOOOOOOOOOOOO")
                     val intent = Intent(this, RestaurantActivity::class.java)
                     intent.putExtra("token", token)
                     startActivity(intent)

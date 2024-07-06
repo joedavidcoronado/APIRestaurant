@@ -10,13 +10,16 @@ import com.example.restaurantesapi.models.Restaurants
 import com.example.restaurantesapi.models.user.LoginRequestDTO
 import com.example.restaurantesapi.models.user.LoginResponseDTO
 import com.example.restaurantesapi.models.user.User
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Part
 import retrofit2.http.Path
 
 
@@ -43,13 +46,13 @@ interface APIRestaurantService {
     fun getRestaurants(): Call<Restaurants>
 
     //Filtro ciudad
-    @GET("api/restaurants/search")
+    @POST("api/restaurants/search")
     fun getRestaurantByFilter(
         @Body city: String
     ): Call<Restaurants>
 
     //filtro fecha y hora
-    @GET("api/restaurants/search")
+    @POST("api/restaurants/search")
     fun getRestaurantByFilterOfTime(
         @Body cualquierCosa: Filtro
     ): Call<Restaurants>
@@ -65,7 +68,7 @@ interface APIRestaurantService {
     ): Call<Restaurant?>
 
     //insertar
-    @POST("restaurants")
+    @POST("api/restaurants")
     fun insertRestaurant(
         @Header("Authorization") token:String,
         @Body restaurant: Restaurant
@@ -81,7 +84,16 @@ interface APIRestaurantService {
     // DELETE
     @DELETE("api/restaurants/{id}")
     fun deleteRestaurant(
+        @Header("Authorization") token: String,
         @Path("id") id: Int
+    ): Call<Void>
+
+    @Multipart
+    @POST("api/restaurants/{id}/logo")
+    fun subirLogo(
+        @Header("Authorization") token:String,
+        @Path("id") id: Int,
+        @Part logo: MultipartBody.Part
     ): Call<Void>
 
 

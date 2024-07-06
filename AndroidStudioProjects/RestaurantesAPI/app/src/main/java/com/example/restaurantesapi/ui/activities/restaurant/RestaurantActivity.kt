@@ -13,12 +13,14 @@ import com.example.restaurantesapi.databinding.ActivityRestaurantBinding
 import com.example.restaurantesapi.models.Restaurant
 import com.example.restaurantesapi.models.Restaurants
 import com.example.restaurantesapi.repositories.objetos.RestaurantRepository
+import com.example.restaurantesapi.ui.activities.inicio.RegistroActivity
 import com.example.restaurantesapi.ui.adapters.RestaurantAdapter
 import com.example.restaurantesapi.ui.viewmodels.RestaurantActivityViewModel
 
 class RestaurantActivity  : AppCompatActivity(), RestaurantAdapter.OnRestaurantClickListener {
     lateinit var binding: ActivityRestaurantBinding
     private val model: RestaurantActivityViewModel by viewModels()
+    var token: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +34,7 @@ class RestaurantActivity  : AppCompatActivity(), RestaurantAdapter.OnRestaurantC
         setupEventListeners()
         setupRecyclerView()
         setupViewModelListeners()
+        token = intent.getStringExtra("token").toString()
     }
 
 
@@ -42,8 +45,8 @@ class RestaurantActivity  : AppCompatActivity(), RestaurantAdapter.OnRestaurantC
 
     private fun setupEventListeners() {
         binding.fabAddRestaurant.setOnClickListener {
-            //val intent = Intent(this, RestaurantDetailActivity::class.java)
-            //startActivity(intent)
+            val intent = Intent(this, RegistroRestaurantActivity::class.java)
+            startActivity(intent)
         }
         binding.fabGoTo.setOnClickListener {
             //val intent = Intent(this, GeneroActivity::class.java)
@@ -91,7 +94,7 @@ class RestaurantActivity  : AppCompatActivity(), RestaurantAdapter.OnRestaurantC
     }
 
     override fun onRestaurantDelete(restaurant: Restaurant) {
-        RestaurantRepository.deleteRestaurant(restaurant.id!!,
+        RestaurantRepository.deleteRestaurant(token, restaurant.id!!,
             success = {
                 model.fetchListaRestaurants()
             },

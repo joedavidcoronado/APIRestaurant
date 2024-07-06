@@ -1,12 +1,10 @@
 package com.example.restaurantesapi.ui.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.restaurantesapi.models.Restaurant
 import com.example.restaurantesapi.repositories.objetos.RestaurantRepository
-
 class RestaurantDetailViewModel : ViewModel() {
 
     private val _closeActivity: MutableLiveData<Boolean> by lazy {
@@ -21,7 +19,7 @@ class RestaurantDetailViewModel : ViewModel() {
     val restaurant: LiveData<Restaurant?> get() = _restaurant
 
 
-    fun saveRestaurant(token: String, name: String, address: String, city: String, description: String, id: Int) {
+    fun saveRestaurant(token: String, name: String, address: String, city: String, description: String, id:Int) {
         val restaurant = Restaurant(
             name = name,
             address = address,
@@ -49,6 +47,7 @@ class RestaurantDetailViewModel : ViewModel() {
                 })
         }
     }
+
 
     fun loadCategory(id: Int) {
         RestaurantRepository.getRestaurant(id,

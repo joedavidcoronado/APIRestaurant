@@ -51,6 +51,9 @@ class RestaurantAdapter(val restaurantList: Restaurants, val listener: OnRestaur
                 txtName.setOnClickListener {
                     listener.onRestaurantClick(restaurant)
                 }
+                btnBorrar.setOnClickListener {
+                    listener.onRestaurantDelete(restaurant)
+                }
                 root.setOnClickListener { listener.onRestaurantClick(restaurant) }
             }
 
