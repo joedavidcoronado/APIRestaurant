@@ -15,22 +15,28 @@ import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.example.restaurantesapi.R
 import com.example.restaurantesapi.databinding.ActivityRestaurantDetailBinding
+import com.example.restaurantesapi.repositories.objetos.PreferencesRepository
+import com.example.restaurantesapi.ui.activities.inicio.FullScreenImageActivity
 import com.example.restaurantesapi.ui.activities.menu.MenuActivity
+import com.example.restaurantesapi.ui.activities.reserva.LlenadoActivity
 import com.example.restaurantesapi.ui.adapters.ImageAdapter
-import com.example.restaurantesapi.ui.viewmodels.RestaurantDetailViewModel
+import com.example.restaurantesapi.ui.viewmodels.restaurant.RestaurantDetailViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 
-class RestaurantDetailActivity : AppCompatActivity() {
-    var id : Int = 0
-    var token: String = ""
 
+class RestaurantDetailActivity : AppCompatActivity() {
+    var id: Int = 0
+    var token: String = ""
+    var name: String = ""
+
+    private lateinit var binding: ActivityRestaurantDetailBinding
     private var fileChooserResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data: Intent? = result.data
 
                 val bitmap = getBitmapFromIntent(data)
-                binding.imgLogo.setImageBitmap(bitmap)
+                binding.imgLogoo.setImageBitmap(bitmap)
 
             }
         }
@@ -54,7 +60,6 @@ class RestaurantDetailActivity : AppCompatActivity() {
         return bitmap
     }
 
-    lateinit var binding: ActivityRestaurantDetailBinding
     private val model: RestaurantDetailViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,7 +75,8 @@ class RestaurantDetailActivity : AppCompatActivity() {
         setupViewModelObservers()
 
         id = intent.getIntExtra("restaurantId", -1)
-        token = intent.getStringExtra("token").toString()
+        token = PreferencesRepository.getToken(this@RestaurantDetailActivity).toString()
+
 
         if (id != -1) {
             model.loadCategory(id)
@@ -87,50 +93,53 @@ class RestaurantDetailActivity : AppCompatActivity() {
             if (it == null) {
                 return@observe
             }
-
             var adapter = ImageAdapter(it.photos)
-            binding.viewPager.adapter = adapter
-            TabLayoutMediator(binding.storyTabs, binding.viewPager) { tab, position -> }.attach()
+            binding.viewPager2.adapter = adapter
+            TabLayoutMediator(binding.storyTabs2, binding.viewPager2) { tab, position -> }.attach()
 
             binding.apply {
                 Glide.with(this@RestaurantDetailActivity)
                     .load(it.logo)
-                    .into(imgLogo)
-                txtNewName.editText?.setText(it.name)
+                    .into(imgLogoo)
+                txtNewName2.editText?.setText(it.name)
                 txtNewAddres.editText?.setText(it.address)
-                txtNewCity.editText?.setText(it.city)
-                txtNewDescription.editText?.setText(it.description)
-                viewPager.adapter = adapter
+                txtNewCity2.editText?.setText(it.city)
+                txtNewDescription2.editText?.setText(it.description)
             }
         }
     }
 
     private fun setupEventListeners() {
-        binding.btnSaveRestaurant.setOnClickListener {
+        binding.btnSaveRestaurannt.setOnClickListener {
             model.saveRestaurant(
                 token,
-                binding.txtNewName.editText?.text.toString(),
+                binding.txtNewName2.editText?.text.toString(),
                 binding.txtNewAddres.editText?.text.toString(),
-                binding.txtNewCity.editText?.text.toString(),
-                binding.txtNewDescription.editText?.text.toString(),
+                binding.txtNewCity2.editText?.text.toString(),
+                binding.txtNewDescription2.editText?.text.toString(),
                 id
             )
         }
-        binding.fabSubirLogo.setOnClickListener {
-            /*model.saveLogo(
-                openFileSelector()
-            )*/
+        binding.fabSubirLogo2.setOnClickListener {
+            openFileSelector()
         }
-        binding.fabSubirImagen.setOnClickListener {
-            /*model.saveLogo(
-                openFileSelector()
-            )*/
+        binding.fabSubirImagen2.setOnClickListener {
+            openFileSelector()
         }
-        binding.btnMenu.setOnClickListener{
+        binding.btnMenu2.setOnClickListener {
+            name = intent.getStringExtra("nombre").toString()
             val intent = Intent(this, MenuActivity::class.java)
+            intent.putExtra("restaurantId2", id)
+            intent.putExtra("restaurantName", name)
+            startActivity(intent)
+        }
+        binding.btnReserva2.setOnClickListener {
+            val intent = Intent(this, LlenadoActivity::class.java)
+            intent.putExtra("restauranId222", id)
             startActivity(intent)
         }
     }
+
 
     private fun openFileSelector() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)

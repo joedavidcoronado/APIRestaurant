@@ -1,10 +1,12 @@
-package com.example.restaurantesapi.ui.viewmodels
+package com.example.restaurantesapi.ui.viewmodels.restaurant
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.restaurantesapi.models.Restaurant
 import com.example.restaurantesapi.repositories.objetos.RestaurantRepository
+import okhttp3.MultipartBody
+
 class RestaurantDetailViewModel : ViewModel() {
 
     private val _closeActivity: MutableLiveData<Boolean> by lazy {
@@ -58,4 +60,18 @@ class RestaurantDetailViewModel : ViewModel() {
                 it.printStackTrace()
             })
     }
+
+    /*fun uploadLogo(token: String, logo: MultipartBody.Part) {
+        RestaurantRepository.subirLogo(
+            id = _restaurant.value?.id ?: -1,
+            logo = logo,
+            token = token,
+            success = {
+                // Handle success if needed
+            },
+            failure = {
+                it.printStackTrace()
+            }
+        )
+    }*/
 }

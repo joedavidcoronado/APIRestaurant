@@ -3,8 +3,8 @@ package com.example.restaurantesapi.models
 typealias Menus = ArrayList<Menu>
 
 data class Menu (
-    val id: Long,
+    val id: Int = 0,
     val name: String,
-    val restaurantid: Long,
+    val restaurant_id: Long,
     val plates: List<Plate>
 )

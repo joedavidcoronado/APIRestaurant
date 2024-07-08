@@ -25,12 +25,10 @@ class MainViewModel : ViewModel() {
                     return@inicioSesion
                 }
                 _errorMessage.value = ""
-                Log.d("MainViewModel", "Token: ${it.access_token}")
                 val token: String = it.access_token!!
                 PreferencesRepository.saveToken(token, context)
             }, failure = {
                 it.printStackTrace()
             })
     }
-
 }

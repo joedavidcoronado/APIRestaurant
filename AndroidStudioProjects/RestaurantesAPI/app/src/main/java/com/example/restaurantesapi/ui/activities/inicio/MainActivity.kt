@@ -16,7 +16,7 @@ import com.example.restaurantesapi.ui.activities.restaurant.RestaurantActivity
 import com.example.restaurantesapi.ui.viewmodels.MainViewModel
 
 class MainActivity : AppCompatActivity(){
-    lateinit var binding: ActivityMainBinding
+        lateinit var binding: ActivityMainBinding
     val model: MainViewModel by viewModels()
     var ok: Boolean = false
 
@@ -35,7 +35,6 @@ class MainActivity : AppCompatActivity(){
     }
 
     private fun setupViewModelObservers() {
-
         model.errorMessage.observe(this) {
             if (it.isNotEmpty()) {
                 Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
@@ -65,9 +64,7 @@ class MainActivity : AppCompatActivity(){
                 model.login(email, password, this)
                 if (!ok){
                     val token = PreferencesRepository.getToken(this@MainActivity)
-                    Log.d("ok", "ENTROOOOOOOOOOOOO")
                     val intent = Intent(this, RestaurantActivity::class.java)
-                    intent.putExtra("token", token)
                     startActivity(intent)
                 }
             }
@@ -80,11 +77,15 @@ class MainActivity : AppCompatActivity(){
         }
         binding.btnVisita.setOnClickListener{
             Toast.makeText(this, "Entrando sin Usuario", Toast.LENGTH_SHORT).show()
+            clearToken()
             Handler().postDelayed({
                 val intent = Intent(this, RestaurantActivity::class.java)
                 startActivity(intent)
                 finish()
             }, 2000)
         }
+    }
+    private fun clearToken() {
+        PreferencesRepository.clearToken(this@MainActivity)
     }
 }

@@ -2,13 +2,15 @@ package com.example.restaurantesapi.api
 
 import com.example.restaurantesapi.models.Filtro
 import com.example.restaurantesapi.models.Menu
+import com.example.restaurantesapi.models.Menus
 import com.example.restaurantesapi.models.Plate
-import com.example.restaurantesapi.models.Reservation
-import com.example.restaurantesapi.models.Reservations
+import com.example.restaurantesapi.models.Reservas
 import com.example.restaurantesapi.models.Restaurant
 import com.example.restaurantesapi.models.Restaurants
 import com.example.restaurantesapi.models.user.LoginRequestDTO
 import com.example.restaurantesapi.models.user.LoginResponseDTO
+import com.example.restaurantesapi.models.MenuInsert
+import com.example.restaurantesapi.models.Reserva
 import com.example.restaurantesapi.models.user.User
 import okhttp3.MultipartBody
 import retrofit2.Call
@@ -43,7 +45,14 @@ interface APIRestaurantService {
 
     //sin filtro
     @POST("api/restaurants/search")
-    fun getRestaurants(): Call<Restaurants>
+        fun getRestaurants(): Call<Restaurants>
+
+    //mis restaurants
+    @GET("/api/restaurants/")
+    fun getMyRestaurants(
+        @Header("Authorization") token:String
+    ): Call<Restaurants>
+
 
     //Filtro ciudad
     @POST("api/restaurants/search")
@@ -57,9 +66,6 @@ interface APIRestaurantService {
         @Body cualquierCosa: Filtro
     ): Call<Restaurants>
 
-    //restaurants de un usuario
-    @GET("api/restaurants")
-    fun getRestaurantUser(): Call<Restaurant>
 
     //restaurant por ID
     @GET("api/restaurants/{id}")
@@ -91,7 +97,6 @@ interface APIRestaurantService {
     @Multipart
     @POST("api/restaurants/{id}/logo")
     fun subirLogo(
-        @Header("Authorization") token:String,
         @Path("id") id: Int,
         @Part logo: MultipartBody.Part
     ): Call<Void>
@@ -105,47 +110,34 @@ interface APIRestaurantService {
     @GET("api/restaurants/{id}/menu")
     fun getMenuRestaurant(
         @Path("id") id: Int
-    ): Call<Menu?>
+    ): Call<Menus>
 
     // agregar categoria del menu
     @POST("api/menu-categories")
-    //"name": "Postres",
-    //"restaurant_id": "1"
     fun agregarCategoriaAlMenu(
-        @Body name: String,
-        @Body restaurant_id: Int
-    ): Call<Restaurant>
+        @Header("Authorization") token: String,
+        @Body menu: MenuInsert
+    ): Call<MenuInsert>
 
-    // actualizar categoria del menu
-    @PUT("api/menu-categories/{id}")
-    fun updateCategoriaMenu(
-        @Body menu: Menu,
-        @Path ("id") id: Int
-    ): Call<Menu>
-
-    // eliminar categoria del restaurant
+    // eliminar plato
     @DELETE("api/menu-categories/{id}")
-    fun deleteCategoriaDeRestaurant(
+    fun deleteCategoriaMenu(
+        @Header("Authorization") token: String,
         @Path("id") id: Int
     ): Call<Void>
 
     // agregar plato
     @POST("api/plates")
     fun insertPlato(
+        @Header("Authorization") token: String,
         @Body plate: Plate
-    ): Call<Plate>
-
-    // actualizar plato
-    @PUT("api/plates/{id}")
-    fun updatePlato(
-        @Body plate: Plate,
-        @Path("id") id: Int
     ): Call<Plate>
 
     // eliminar plato
     @DELETE("api/plates/{id}")
     fun deletePlato(
-        @Path("id") id: Int
+        @Header("Authorization") token: String,
+        @Path("id") id: String
     ): Call<Void>
 
 
@@ -154,30 +146,32 @@ interface APIRestaurantService {
     // agregar reserva sin plato
     @POST("api/reservations")
     fun insertReservaSinPlato(
-        @Body reservation: Reservation
-    ): Call<Reservation>
+        @Header("Authorization") token: String,
+        @Body reserva: Reserva
+    ): Call<Reserva>
 
     // agregar reserva con plato
-    @POST("api/reservations")
+    @GET("api/reservations")
     fun insertReservaConPlato(
-        @Body reservation: Reservation
-    ): Call<Reservation>
+        @Body reservation: Reservas
+    ): Call<Reservas>
 
     // obtener lista de reservas
     @GET("api/reservations")
-    fun getReservas(
-    ): Call<Reservations>
+    fun getReservaRestaurant(
+        @Header("Authorization") token: String,
+    ): Call<Reservas>
 
     // obtener una reserva
     @GET("api/reservations/{id}")
-    fun getReservationById(
-        @Body reservation: Reservation,
+    fun getReservasById(
+        @Body reservation: Reservas,
         @Path("id") id: Int
-    ): Call<Reservation?>
+    ): Call<Reservas?>
 
     // obtener reservas de un restaurant
     @GET("api/restaurants/{id}/reservations")
     fun getReservasDeUnRestaurant(
         @Path("id") id: Int
-    ): Call<Reservations>
+    ): Call<Reservas>
 }

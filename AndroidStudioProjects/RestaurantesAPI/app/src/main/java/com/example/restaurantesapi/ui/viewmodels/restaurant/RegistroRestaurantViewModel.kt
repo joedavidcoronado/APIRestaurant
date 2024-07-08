@@ -1,4 +1,4 @@
-package com.example.restaurantesapi.ui.viewmodels
+package com.example.restaurantesapi.ui.viewmodels.restaurant
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -25,7 +25,7 @@ class RegistroRestaurantViewModel: ViewModel() {
             name = name,
             address = address,
             city = city,
-            description = description,
+            description = description
         )
 
         RestaurantRepository.insertRestaurant(token = token ,restaurant,

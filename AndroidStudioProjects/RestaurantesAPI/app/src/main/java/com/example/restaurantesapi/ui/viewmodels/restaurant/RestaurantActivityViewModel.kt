@@ -1,4 +1,4 @@
-package com.example.restaurantesapi.ui.viewmodels
+package com.example.restaurantesapi.ui.viewmodels.restaurant
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

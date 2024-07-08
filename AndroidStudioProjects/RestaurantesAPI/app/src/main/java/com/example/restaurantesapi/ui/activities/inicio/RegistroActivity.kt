@@ -54,8 +54,8 @@ class RegistroActivity : AppCompatActivity() {
                 binding.txtRegistroContraseA.editText?.text.toString(),
                 binding.txtRegistroTelefono.editText?.text.toString()
             )
-            val intent = Intent(this, RestaurantActivity::class.java)
-            startActivity(intent)
+            model.login(binding.txtRegistroCorreo.editText?.text.toString(), binding.txtRegistroContraseA.editText?.text.toString(), this)
+            finish()
         }
     }
 }

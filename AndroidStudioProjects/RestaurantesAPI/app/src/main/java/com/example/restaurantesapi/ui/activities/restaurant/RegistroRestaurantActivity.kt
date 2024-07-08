@@ -1,7 +1,6 @@
 package com.example.restaurantesapi.ui.activities.restaurant
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -10,7 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.restaurantesapi.R
 import com.example.restaurantesapi.databinding.ActivityRegistroRestaurantBinding
 import com.example.restaurantesapi.repositories.objetos.PreferencesRepository
-import com.example.restaurantesapi.ui.viewmodels.RegistroRestaurantViewModel
+import com.example.restaurantesapi.ui.viewmodels.restaurant.RegistroRestaurantViewModel
 
 class RegistroRestaurantActivity : AppCompatActivity() {
     var token: String = ""

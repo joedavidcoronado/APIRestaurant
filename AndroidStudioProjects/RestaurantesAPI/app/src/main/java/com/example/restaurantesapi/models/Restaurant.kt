@@ -10,10 +10,9 @@ data class Restaurant (
     val address: String = "",
     val city: String? = "",
     val description: String = "",
-    val user: User? = null
+    val user: User? = null,
+    var photos: List<Photo> = emptyList()
 ){
     var id: Int? = null
-    var photos: List<String> = emptyList()
-
     var logo: String? = null
 }

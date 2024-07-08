@@ -1,5 +1,6 @@
 package com.example.restaurantesapi.ui.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,7 +48,7 @@ class RestaurantAdapter(val restaurantList: Restaurants, val listener: OnRestaur
                     .load(restaurant.logo.toString())
                     .into(imgImagen)
                 txtName.text = restaurant.name
-
+                Log.d("NOMBRES RESTAURANT", restaurant.name)
                 txtName.setOnClickListener {
                     listener.onRestaurantClick(restaurant)
                 }
